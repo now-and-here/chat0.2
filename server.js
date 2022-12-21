@@ -6,11 +6,18 @@ const chatEmitter = new EventEmitter();
 const port = process.env.PORT || 8080;
 const app = express();
 
+app.get("/", respondMain);
 app.get("/static/*", respondStatic);
 app.get("/chat", respondChat);
 app.get("/sse", respondSSE);
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
+
+function respondMain(req, res){
+  fs.createReadStream("chat.html")
+    .on("error", () => respondNotFound(req, res))
+    .pipe(res);
+}
 
 function respondStatic(req, res) {
   const filename = req.url.split("/static/")[1];
@@ -27,7 +34,7 @@ function respondChat(req, res) {
 
 function respondSSE(req, res) {
   res.writeHead(200, {
-    "Content-Type": "text/event-stream",
+    "Content-Type": "text/html",
     Connection: "keep-alive",
   });
 
