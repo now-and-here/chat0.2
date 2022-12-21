@@ -25,6 +25,7 @@ app.listen(port, () => console.log(`Server listening on port ${port}`));
 
 function respondStatic(req, res) {
   const filename = req.url.split("/static/")[1];
+  console.log(filename)
   fs.createReadStream(filename)
     .on("error", () => respondNotFound(req, res))
     .pipe(res);
