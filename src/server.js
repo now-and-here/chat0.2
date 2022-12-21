@@ -4,18 +4,18 @@ const EventEmitter = require("events");
 
 const chatEmitter = new EventEmitter();
 const port = process.env.PORT || 8080;
-const app = express();
+// const app = express();
 
-var options = {
-  dotfiles: "ignore",
-  etag: false,
-  extensions: ["htm", "html", "css", "js", "ico", "jpg", "jpeg", "png", "svg"],
-  index: ["server.js"],
-  maxAge: "1m",
-  redirect: false,
-};
+// var options = {
+//   dotfiles: "ignore",
+//   etag: false,
+//   extensions: ["htm", "html", "css", "js", "ico", "jpg", "jpeg", "png", "svg"],
+//   index: ["server.js"],
+//   maxAge: "1m",
+//   redirect: false,
+// };
 
-app.use(express.static("public", options));
+// app.use(express.static("public", options));
 
 app.get("/static/*", respondStatic);
 app.get("/chat", respondChat);
@@ -25,7 +25,7 @@ app.listen(port, () => console.log(`Server listening on port ${port}`));
 
 function respondStatic(req, res) {
   const filename = req.url.split("/static/")[1];
-  fs.createReadStream("/public/"+filename)
+  fs.createReadStream(filename)
     .on("error", () => respondNotFound(req, res))
     .pipe(res);
 }
