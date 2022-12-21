@@ -13,7 +13,7 @@ app.get("/sse", respondSSE);
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
 
-function respondMain(req, res){
+function respondMain(req, res) {
   fs.createReadStream("chat.html")
     .on("error", () => respondNotFound(req, res))
     .pipe(res);
